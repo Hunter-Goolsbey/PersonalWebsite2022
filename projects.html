@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HunterGoolsbey</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="stylesheet_index.css">
+<script src="three.js"></script>
+<script src="GLTFLoader.js"></script>
+<script async type=module>
+	var renderer,
+		scene,
+		camera,
+		myCanvas = document.getElementById('canvas');
+	
+		//Renderer
+		renderer = new THREE.WebGLRenderer({
+			canvas: myCanvas, 
+			antialias: true
+		});
+
+		renderer.setClearColor(0x000000);
+		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setSize( myCanvas.clientWidth, myCanvas.clientWidth );
+		camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 1, 10000 );
+		
+		scene = new THREE.Scene();
+		
+		var light = new THREE.AmbientLight(0xffffff, 1);
+		scene.add(light);
+		
+		var light2 = new THREE.PointLight(0xffffff,1);
+		scene.add(light2);
+
+		var loader = new THREE.GLTFLoader();
+		loader.load('SPO_STP_inner.glb', handle_load);
+		
+		var mesh;
+		
+		
+		function handle_load(gltf){
+			mesh = gltf.scene.children[0];
+			mesh.material= new THREE.MeshLambertMaterial();
+			scene.add(mesh);
+			mesh.rotation.x = Math.PI / 2;
+			mesh.position.z=-16;
+			mesh.scale = (30,30, 30);
+			camera.position = mesh.position;
+		};
+
+		
+//render loop
+render();
+var delta = 0;
+var prevTime = Date.now();
+
+function render() {
+	delta += 1;
+	if (mesh) {
+	mesh.rotation.z +=0.004;
+	}
+	renderer.render(scene, camera);
+	requestAnimationFrame(render);
+}
+
+	
+	
+			
+</script>
+<style>
+/*html {
+  scroll-behavior: smooth;
+}
+
+table {
+  font-family: Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+h1, p, b, a {
+  font-family: Helvetica, sans-serif;
+}
+
+h4 {
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  align-items: center;
+  padding-top: 8%;
+  padding-bottom: 8%;
+  
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+*/
+
+.row {
+    display: grid;
+    grid-auto-flow: column;
+    overflow-x: scroll;
+}
+
+#randy {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100vw;
+  height: 3px;
+  background-color: black;
+  animation-name: linein;
+  animation-duration: 1.9s;
+  animation-fill-mode: forwards;
+}
+
+#heading {
+  padding-left: 15px;
+  padding-top: 5px;
+  display: block;
+  color: white;
+  animation-name: titlein;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards;
+}
+
+#mainnav {
+  display: inline-block;
+  opacity: 0%;
+  animation-name: navin;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards;
+}
+nav{
+  width:100%;
+}
+.row, table, .card {
+  opacity: 0%;
+  animation-name: contentin;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards;
+}
+
+#mainnav.a {
+	display: inline-block;
+}
+
+#mainshow {
+  /*background: linear-gradient(to top, transparent, 0.025%, white);*/
+}
+
+
+@keyframes linein {
+  from {transform: scaleX(0);
+  background-color: white;}
+  to {transform: scaleX(1);
+  background-color: black;}
+}
+
+@keyframes titlein {
+  from {transform: translate(0px, 20px);
+  color: white;}
+  to {transform: translate(0px, 0px);
+  color: black;}
+}
+
+@keyframes navin {
+  from {transform: translate(0px, -20px);
+  color: white;
+  opacity: 0%;}
+  to {transform: translate(0px, 0px);
+  color: black;
+  opacity: 100%;}
+}
+
+@keyframes contentin {
+  from {transform: translate(0px, -20px);
+  color: white;
+  opacity: 0%;}
+  to {transform: translate(0px, 0px);
+  color: black;
+  opacity: 100%;}
+}
+.card img {
+  width: 300px; /* width of container */
+  height: 300px; /* height of container */
+  object-fit: fill;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 300px;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+img {
+  border-radius: 5px 5px 0 0;
+  height: 150%;
+  
+}
+
+.container-fluid {
+  padding-top: 10px;
+  display: inline-block;
+}
+.container {
+  display: block;
+  align-items: center;
+
+}
+
+.content{
+  padding-top: 200px;
+}
+.hunter{
+ padding-bottom: 1.1vh;
+}
+
+div.sticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
+.headings {
+  text-align: center;
+  opacity: 0%;
+  animation-name: contentin;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards;
+}
+canvas {
+  width: 100%;
+  object-fit: fill;
+}
+</style>
+</head>
+<body>
+
+		<div id="mainshow" style="z-index: 1">
+		<h1 class="display-4" id="heading">Hunter Goolsbey</h1>
+		<div id=randy></div>
+		<nav class="navbar navbar-expand-sm bg navbar-light" id=mainnav>
+  			<ul class="navbar-nav">
+    			<li class="nav-item">
+      				<a class="nav-link" href="home.html">Bio</a>
+    			</li>
+    			<li class="nav-item active">
+      				<a class="nav-link active" href="projects.html">Projects</a>
+    			</li>
+    			<li class="nav-item">
+      				<a class="nav-link" href="contactMe.html">Connect</a>
+    			</li>
+  			</ul>
+		</nav>
+		</div>
+		<div>
+		  <h1 class=headings>Projects</h1>
+		</div>
+		<div>
+		  <p class="headings">
+		    Providing full stack development solutions to the inland
+		  	 northwest are just a handful of things I do...
+		  </p>
+		</div>
+		
+		
+		
+		<div class="container-fluid">
+		<div class="row p-2">
+		
+		<div class="col">
+		<div class="card">
+  		<a href="https://codingforapples.wordpress.com"><img src="CFA.png" alt="Avatar" style="width:100%;"></a>
+  		<div class="container">
+    		<h4><b>Coding for Apples</b></h4> 
+    		<!--<p>A developer blog for learners</p>-->
+  		</div>
+  		</div>
+  		</div>
+  		
+  		<div class="col">
+  		<div class="card">
+  		<img src="Report.png" alt="Avatar" style="width:100%">
+  		<div class="container">
+    		<h4><b> SQL Facilities Report</b></h4> 
+    		<!--<p>NOAA integration for Pandas</p>-->
+  		</div>
+  		</div>
+		</div>
+		
+		<div class="col">
+		<div class="card">
+  		<canvas id="canvas" style="border-radius: 4px 4px 0px 0px;"></canvas>
+  		<div class="container">
+    		<h4><b>3D Modeling</b></h4> 
+    		<!--<p>Model Portfolio</p>--> 
+  		</div>
+  		</div>
+  		</div>
+  		
+  		<!-- <div class="col">
+  		<div class="card">
+  		<img src="IMG_2861.jpg" alt="Avatar" style="width:100%">
+  		<div class="container">
+    		<h4><b>NOAA-API Reader</b></h4> -->
+    		<!-- <p>NOAA integration for Pandas</p> -->
+  		<!-- </div>
+  		</div>
+		</div> -->
+		
+		</div>
+		</div>
+
+		<div>
+		<p></p>
+		</div>
+
+
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("mainshow");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+
+
+</script>
+
+</body>
+</html>
